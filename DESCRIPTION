@@ -1,0 +1,8 @@
+Title: Prueba de Hipóteis
+Author: José R Sosa.
+AuthorUrl: http://josersosa.blogsite.org/
+License: GPL3
+DisplayMode: Showcase
+Tags: statistical-learn-resource
+Type: Shiny
+widgets: [mathjax]            # {mathjax, quiz, bootstrap}
