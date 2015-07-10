@@ -25,3 +25,25 @@ $$
 \bar{X} \sim Normal(\mu, \frac{\sigma}{\sqrt{n}})  
 $$
 
+
+## ¿Como probarlo?
+Se requiere el paquete _Shiny_ para ejecutar esta aplicación. A continuación una ejemplo de como ejecutarlo desde el repositorio de **github.com**:
+
+```{r}
+#installpackages("shiny", dependencies=TRUE)
+library(shiny)
+
+# Forma rapida de ejecutar la aplicación
+shiny::runGitHub('TestHipotesis', 'josersosa')
+
+# O desde el zip o tar.gz
+runUrl("https://github.com/josersosa/TestHipotesis/archive/master.zip")
+runUrl("https://github.com/josersosa/TestHipotesis/archive/master.tar.gz")
+```
+
+Si desdea descargar el proyecto, puede ejecutarlo localmente, suponiendo que se clonó en el directorio personal:
+
+```{r}
+setwd("~/TestHipotesis")
+runApp()
+```
