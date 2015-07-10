@@ -1,9 +1,9 @@
-#TestHipotesis
 
-##Objetivo
-Recurso digital para el aprendizaje del concepto de la prueba de hipótesis estadística
 
 ##Descripción
+Recurso digital para el aprendizaje del concepto de la prueba de hipótesis estadística
+
+##Objetivo
 Esta aplicación intenta representar gráficamente los fundamentos de la toma de decisiones basadas en las pruebas de hipótesis estadística. En particular se muestra la relación entre las distribuciones de probabilidad del _estadístico de prueba_ para la media de una población con una hipótesis alternativa de cola derecha, por ejemplo: 
 
 $$

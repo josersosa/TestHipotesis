@@ -1,6 +1,6 @@
 library(shiny)
 
-
+# Definición de la aplicación servidor
 shinyServer(function(input, output) {
 
   xlim <- c(0,14)
@@ -17,6 +17,7 @@ shinyServer(function(input, output) {
   err1 <- 1 -pnorm(pc, mean = mH0, sd = sH0)
   err2 <- pnorm(pc, mean = mH1, sd = sH1)
   
+  # Gráfico de las distribuciones
   output$distPlot <- renderPlot({
     xlim <- c(0,14)
     ylim <- c(0,0.5)
@@ -91,6 +92,7 @@ shinyServer(function(input, output) {
     withMathJax(helpText('Dynamic output 1:  $$\\alpha^2$$'))
   })
   
+  # Gráfico de la potencia de la prueba
   output$Potencia <- renderPlot({
     alpha <- input$alpha
     n <- input$n
@@ -109,6 +111,7 @@ shinyServer(function(input, output) {
          col = "red", lwd = 2, type = "l")
   })
   
+  # Gráfico de la curva ROC
   output$curvaROC <- renderPlot({
     alpha <- input$alpha
     n <- input$n

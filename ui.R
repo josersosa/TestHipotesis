@@ -1,12 +1,12 @@
 library(shiny)
 
-# Define UI for application
+# Definición de la interface gráfica (GUI)
 shinyUI(fluidPage(
 
   # Application title
   titlePanel("Ejemplo de una Prueba de Hipótesis"),
   
-  # Sidebar with a slider inputs
+  # Barra lateral con los controles
   sidebarLayout(
     sidebarPanel(
       sliderInput("n",
@@ -28,7 +28,7 @@ shinyUI(fluidPage(
                   step= 0.005)     
     ),
 
-    # Show a plot of the generated distribution
+    # Paneles con las salidas
     mainPanel(
       tabsetPanel(type = "tabs", 
                   tabPanel("Distribuciones", plotOutput("distPlot")), 
