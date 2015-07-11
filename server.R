@@ -59,9 +59,9 @@ shinyServer(function(input, output) {
     mtext("Hipótesis Nula verdadera", col="blue", adj = 0)
     mtext("Hipótesis Alternativa verdadera", col = "red", adj = 1)
     text(xlim[2]-2, ylim[2]-0.0, 
-         as.expression(substitute(mu_0==medx,list(medx=mH0))), col="blue")
+         as.expression(substitute(m0==medx,list(medx=mH0))), col="blue")
     text(xlim[2]-2, ylim[2]-0.04, 
-         as.expression(substitute(mu_1==medy,list(medy=mH1))), col="red")
+         as.expression(substitute(m1==medy,list(medy=mH1))), col="red")
     text(xlim[2]-2, ylim[2]-0.08, 
          as.expression(substitute(alpha==e1,list(e1=err1))), col="blue")
     text(xlim[2]-2, ylim[2]-0.12, 
