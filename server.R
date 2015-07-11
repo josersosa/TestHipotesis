@@ -29,7 +29,6 @@ shinyServer(function(input, output) {
     mH1 <- input$mH1 
     sH1 <- sigma/sqrt(n)
     pc <- qnorm(1-alpha, mean = mH0, sd = sH0)
-    #pc <- 2.5
     err1 <- 1 -pnorm(pc, mean = mH0, sd = sH0)
     err2 <- pnorm(pc, mean = mH1, sd = sH1)
     
@@ -60,9 +59,9 @@ shinyServer(function(input, output) {
     mtext("Hipótesis Nula verdadera", col="blue", adj = 0)
     mtext("Hipótesis Alternativa verdadera", col = "red", adj = 1)
     text(xlim[2]-2, ylim[2]-0.0, 
-         as.expression(substitute(m0==medx,list(medx=mH0))), col="blue")
+         as.expression(substitute(mu_0==medx,list(medx=mH0))), col="blue")
     text(xlim[2]-2, ylim[2]-0.04, 
-         as.expression(substitute(m1==medy,list(medy=mH1))), col="red")
+         as.expression(substitute(mu_1==medy,list(medy=mH1))), col="red")
     text(xlim[2]-2, ylim[2]-0.08, 
          as.expression(substitute(alpha==e1,list(e1=err1))), col="blue")
     text(xlim[2]-2, ylim[2]-0.12, 
@@ -133,6 +132,30 @@ shinyServer(function(input, output) {
          ylab = "Verdaderos Positivos", 
          xlim = c(0,1), 
          col = "blue", lwd = 2, type = "l")
+  })
+  
+  # Despliegue de las ecuaciones
+  output$Ecuaciones <- renderUI({
+    xlim <- c(0,14)
+    ylim <- c(0,0.5)
+    sigma <- 10
+    alpha <- input$alpha
+    n <- input$n
+    mH0 <- 4
+    sH0 <- sigma/sqrt(n)
+    mH1 <- input$mH1 
+    sH1 <- sigma/sqrt(n)
+    pc <- round(qnorm(1-alpha, mean = mH0, sd = sH0), 2)
+    err1 <- round(1 -pnorm(pc, mean = mH0, sd = sH0), 2)
+    err2 <- round(pnorm(pc, mean = mH1, sd = sH1), 2)
+    withMathJax(
+      sprintf('Definición de las Hipótesis: $$H_0:"\\mu=%.02f"\\\\H_1:"\\mu>%.02f" \\\\ \\sigma = 10$$', mH0, mH0),
+      sprintf('Nivel de confianza: $$1-\\alpha = %.02f$$', 1-alpha),
+      sprintf('Estadístico de prueba: $$\\bar{X} = \\frac{\\sum_{i=1}^n x_i}{n} \\sim Normal(\\mu,\\frac{\\sigma}{\\sqrt{n}})$$'),
+      sprintf('Punto crítico (pc) de la región de rechazo: $$pc = F_z^{-1}(1-\\alpha)\\frac{\\sigma}{\\sqrt{n}} + \\mu = %.02f $$',pc),
+      sprintf('Error Tipo I: $$P(Rechazar \\ H_0 \\ | \\ H_0 \\ es \\ Verdadera) = \\alpha \\\\ = P( \\bar{X} > %.02f \\ | \\ \\mu=%.02f) = %.02f $$', pc, mH0,  err1),
+      sprintf('Error Tipo II: $$ P(Aceptar \\ H_0 \\ | \\ H_0 \\ es \\ Falsa) = \\beta \\\\ = P( \\bar{X} < %.02f \\ | \\ \\mu=%.02f)= %.02f $$', pc, mH1, err2) 
+    )
   })
 
 })

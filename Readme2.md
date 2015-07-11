@@ -39,11 +39,33 @@ $$
 En este caso el _estadístico de prueba_ corresponde a la _Media Muestral_, que para una muestra de tamaño _n_ tiene la siguiente formula:
 
 $$
-\bar{X} = \frac{\sum_{i=1}^n x_i} {n}  
+\bar{X} = \frac{\sum_{i=1}^n x_i} {n} \sim Normal(\mu, \frac{\sigma}{\sqrt{n}}) 
 $$
 
 Sí n>>0, y aplicando el __Teorema Central del Límite__ podemos decir que el _estadístico de prueba_ sigue una distribución de probabilidad _normal_:
 
 $$
 \bar{X} \sim Normal(\mu, \frac{\sigma}{\sqrt{n}})  
+$$
+
+La región de rechazo (cola de la derecha) se cálcula en base al nivel de significancia de la prueba y asumiendo que la hipóstesis nula es verdadera, su punto crítico es:
+
+$$
+pc = F_z^{-1}(1-\alpha)\frac{\sigma}{\sqrt{n}} + \mu
+$$
+
+Los errores inferenciales dependen del verdadero estado de la Hipótesis Nula:
+
+Error de tipo 1:
+
+$$
+P(Rechazar \ H_0 \ | \ H_0 \ es \ Verdadera) = \alpha \\ 
+= P( \bar{X} > pc \ | \ \mu=4)
+$$
+
+Error de tipo 2:
+
+$$
+P(Aceptar \ H_0 \ | \ H_0 \ es \ Falsa) = \beta \\ 
+= P( \bar{X} < pc \ | \ \mu=8)
 $$

@@ -1,21 +1,21 @@
 library(shiny)
 
 # Definición de la interface gráfica (GUI)
-shinyUI(fluidPage(
+shinyUI(fluidPage(withMathJax(),
 
   # Application title
   titlePanel("Ejemplo de una Prueba de Hipótesis"),
   
   # Barra lateral con los controles
-  sidebarLayout(
+  sidebarLayout(position = "right",
     sidebarPanel(
       sliderInput("n",
-                  "Tamaño de la muestra:",
+                  "Tamaño de la muestra (n):",
                   min = 10,
                   max = 150,
                   value = 50),
       sliderInput("mH1",
-                  "Media, hipótesis Alternativa (m1):",
+                  "Media, hipótesis Alternativa (mu_1):",
                   min = 4,
                   max = 14,
                   value = 8,
@@ -25,7 +25,7 @@ shinyUI(fluidPage(
                   min = 0.01,
                   max = 0.5,
                   value = 0.05,
-                  step= 0.005)     
+                  step= 0.005)
     ),
 
     # Paneles con las salidas
@@ -33,7 +33,8 @@ shinyUI(fluidPage(
       tabsetPanel(type = "tabs", 
                   tabPanel("Distribuciones", plotOutput("distPlot")), 
                   tabPanel("Curva de Potencia", plotOutput("Potencia")),
-                  tabPanel("Curva ROC", plotOutput("curvaROC"))
+                  tabPanel("Curva ROC", plotOutput("curvaROC")),
+                  tabPanel("Ecuaciones", uiOutput("Ecuaciones"))
       )
     )
   )
