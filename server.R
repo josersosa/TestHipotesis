@@ -19,8 +19,8 @@ shinyServer(function(input, output) {
   
   # Gráfico de las distribuciones
   output$distPlot <- renderPlot({
-    xlim <- c(0,14)
-    ylim <- c(0,0.5)
+    xlim <- input$RangoX
+    ylim <- input$RangoY
     sigma <- 10
     alpha <- input$alpha
     n <- input$n
@@ -32,6 +32,8 @@ shinyServer(function(input, output) {
     err1 <- 1 -pnorm(pc, mean = mH0, sd = sH0)
     err2 <- pnorm(pc, mean = mH1, sd = sH1)
     mostrarH1 <- input$MostrarH1
+    aplicTest <- input$AplicacionTest
+    estPrueba <- input$EstPrueba
     
     par(mfrow = c(1,1))
     
@@ -88,6 +90,21 @@ shinyServer(function(input, output) {
     y <- c(0,y,0)
     polygon(x, y, density = 20, angle = 45, col = "blue")
     #polygon(x, y, col = "light blue")
+    
+    if(aplicTest){
+      if(estPrueba>=pc){
+        colPrueba <- "red"
+        text(estPrueba, 0.15, "Se rechaza H0",col=colPrueba)
+      } 
+      else{
+        colPrueba = "blue"
+        text(estPrueba, 0.15, "No se rechaza H0",col=colPrueba)
+      } 
+      lines(c(estPrueba, estPrueba), 
+            c(0, 0.1), 
+            col=colPrueba, lwd = 2, lty = "dashed")
+      text(estPrueba, 0.12, "X",col=colPrueba)
+    }
 
   })
   
@@ -148,14 +165,46 @@ shinyServer(function(input, output) {
     pc <- round(qnorm(1-alpha, mean = mH0, sd = sH0), 2)
     err1 <- round(1 -pnorm(pc, mean = mH0, sd = sH0), 2)
     err2 <- round(pnorm(pc, mean = mH1, sd = sH1), 2)
-    withMathJax(
-      sprintf('Definición de las Hipótesis: $$H_0:"\\mu=%.02f"\\\\H_1:"\\mu>%.02f" \\\\ \\sigma = 10$$', mH0, mH0),
-      sprintf('Nivel de confianza: $$1-\\alpha = %.02f$$', 1-alpha),
-      sprintf('Estadístico de prueba: $$\\bar{X} = \\frac{\\sum_{i=1}^n x_i}{n} \\sim Normal(\\mu,\\frac{\\sigma}{\\sqrt{n}})$$'),
-      sprintf('Punto crítico (pc) de la región de rechazo: $$pc = F_z^{-1}(1-\\alpha)\\frac{\\sigma}{\\sqrt{n}} + \\mu = %.02f $$',pc),
-      sprintf('Error Tipo I: $$P(Rechazar \\ H_0 \\ | \\ H_0 \\ es \\ Verdadera) = \\alpha \\\\ = P( \\bar{X} > %.02f \\ | \\ \\mu=%.02f) = %.02f $$', pc, mH0,  err1),
-      sprintf('Error Tipo II: $$ P(Aceptar \\ H_0 \\ | \\ H_0 \\ es \\ Falsa) = \\beta \\\\ = P( \\bar{X} < %.02f \\ | \\ \\mu=%.02f)= %.02f $$', pc, mH1, err2) 
-    )
+    aplicTest <- input$AplicacionTest
+    estPrueba <- input$EstPrueba
+    if(aplicTest){
+      pval <- 1-pnorm(estPrueba, mean = mH0, sd = sH0) 
+      if(pval<=err1){
+        withMathJax(
+          sprintf('Definición de las Hipótesis: $$H_0:"\\mu=%.02f"\\\\H_1:"\\mu>%.02f" \\\\ \\sigma = 10$$', mH0, mH0),
+          sprintf('Nivel de confianza: $$1-\\alpha = %.02f$$', 1-alpha),
+          sprintf('Estadístico de prueba: $$\\bar{X} = \\frac{\\sum_{i=1}^n x_i}{n} \\sim Normal(\\mu,\\frac{\\sigma}{\\sqrt{n}})$$'),
+          sprintf('Punto crítico (pc) de la región de rechazo: $$pc = F_z^{-1}(1-\\alpha)\\frac{\\sigma}{\\sqrt{n}} + \\mu = %.02f $$',pc),
+          sprintf('Error Tipo I: $$P(Rechazar \\ H_0 \\ | \\ H_0 \\ es \\ Verdadera) = \\alpha \\\\ = P( \\bar{X} > %.02f \\ | \\ \\mu=%.02f) = %.02f $$', pc, mH0,  err1),
+          sprintf('Error Tipo II: $$ P(Aceptar \\ H_0 \\ | \\ H_0 \\ es \\ Falsa) = \\beta \\\\ = P( \\bar{X} < %.02f \\ | \\ \\mu=%.02f)= %.02f $$', pc, mH1, err2),
+          sprintf('P-valor: $$ p_{valor} = P( \\bar{X} \\geq %.02f \\ | \\ \\mu=%.02f) \\\\ = 1 - F_z(\\frac{%.02f-\\mu}{\\frac{\\sigma}{\\sqrt{n}}}) = %.02f \\\\ p_{valor} \\leq \\alpha $$', estPrueba, mH0, estPrueba, pval),
+          sprintf('Resultado de la Prueba: $$ Hay \\ evidencia \\ muestral \\ suficiente \\ para \\ rechazar \\ H_0 $$')
+        )
+      }
+      else {
+        withMathJax(
+          sprintf('Definición de las Hipótesis: $$H_0:"\\mu=%.02f"\\\\H_1:"\\mu>%.02f" \\\\ \\sigma = 10$$', mH0, mH0),
+          sprintf('Nivel de confianza: $$1-\\alpha = %.02f$$', 1-alpha),
+          sprintf('Estadístico de prueba: $$\\bar{X} = \\frac{\\sum_{i=1}^n x_i}{n} \\sim Normal(\\mu,\\frac{\\sigma}{\\sqrt{n}})$$'),
+          sprintf('Punto crítico (pc) de la región de rechazo: $$pc = F_z^{-1}(1-\\alpha)\\frac{\\sigma}{\\sqrt{n}} + \\mu = %.02f $$',pc),
+          sprintf('Error Tipo I: $$P(Rechazar \\ H_0 \\ | \\ H_0 \\ es \\ Verdadera) = \\alpha \\\\ = P( \\bar{X} > %.02f \\ | \\ \\mu=%.02f) = %.02f $$', pc, mH0,  err1),
+          sprintf('Error Tipo II: $$ P(Aceptar \\ H_0 \\ | \\ H_0 \\ es \\ Falsa) = \\beta \\\\ = P( \\bar{X} < %.02f \\ | \\ \\mu=%.02f)= %.02f $$', pc, mH1, err2),
+          sprintf('P-valor: $$ p_{valor} = P( \\bar{X} \\geq %.02f \\ | \\ \\mu=%.02f) \\\\ = 1 - F_z(\\frac{%.02f-\\mu}{\\frac{\\sigma}{\\sqrt{n}}}) = %.02f \\\\ p_{valor} > \\alpha $$', estPrueba, mH0, estPrueba, pval),
+          sprintf('Resultado de la Prueba: $$ No \\ hay \\ evidencia \\ muestral \\ suficiente \\ para \\ rechazar \\ H_0 $$')
+        )
+      }
+      
+    }
+    else{
+      withMathJax(
+        sprintf('Definición de las Hipótesis: $$H_0:"\\mu=%.02f"\\\\H_1:"\\mu>%.02f" \\\\ \\sigma = 10$$', mH0, mH0),
+        sprintf('Nivel de confianza: $$1-\\alpha = %.02f$$', 1-alpha),
+        sprintf('Estadístico de prueba: $$\\bar{X} = \\frac{\\sum_{i=1}^n x_i}{n} \\sim Normal(\\mu,\\frac{\\sigma}{\\sqrt{n}})$$'),
+        sprintf('Punto crítico (pc) de la región de rechazo: $$pc = F_z^{-1}(1-\\alpha)\\frac{\\sigma}{\\sqrt{n}} + \\mu = %.02f $$',pc),
+        sprintf('Error Tipo I: $$P(Rechazar \\ H_0 \\ | \\ H_0 \\ es \\ Verdadera) = \\alpha \\\\ = P( \\bar{X} > %.02f \\ | \\ \\mu=%.02f) = %.02f $$', pc, mH0,  err1),
+        sprintf('Error Tipo II: $$ P(Aceptar \\ H_0 \\ | \\ H_0 \\ es \\ Falsa) = \\beta \\\\ = P( \\bar{X} < %.02f \\ | \\ \\mu=%.02f)= %.02f $$', pc, mH1, err2) 
+      )
+    }  
   })
 
 })

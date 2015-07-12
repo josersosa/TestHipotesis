@@ -29,8 +29,17 @@ shinyUI(fluidPage(withMathJax(),
                   max = 14,
                   value = 8,
                   step= 0.2),
-      checkboxInput('MostrarH1', 'Mostrar hipótesis Alternativa', TRUE)
-      
+      checkboxInput('MostrarH1', 'Mostrar hipótesis Alternativa', TRUE),
+      checkboxInput('AplicacionTest', 'Aplicación del test', FALSE),
+      checkboxInput('MostrarParam', 'Otros parámetros', FALSE),
+      conditionalPanel(condition = "input.MostrarParam == true",
+                       sliderInput(inputId = "RangoX",
+                                   label = "Rango de X:",
+                                   min = -20, max = 20, value = c(0,14), step = 1),
+                       sliderInput(inputId = "RangoY",
+                                   label = "Rango de Y:",
+                                   min = -0, max = 1, value = c(0,0.5), step = 0.01)
+      )      
     )),
 
     # Paneles con las salidas
@@ -39,8 +48,11 @@ shinyUI(fluidPage(withMathJax(),
                   tabPanel("Distribuciones", plotOutput("distPlot")), 
                   tabPanel("Curva de Potencia", plotOutput("Potencia")),
                   tabPanel("Curva ROC", plotOutput("curvaROC")),
-                  tabPanel("Ecuaciones", uiOutput("Ecuaciones"))
-      )
+                  tabPanel("Ecuaciones", uiOutput("Ecuaciones"))),
+      conditionalPanel(condition = "input.AplicacionTest == true",
+                       sliderInput(inputId = "EstPrueba",
+                                   label = "Valor del estadístico de prueba:",
+                                   min = 0, max = 14, value = 4, step = 0.02))
     )
   )
 ))
