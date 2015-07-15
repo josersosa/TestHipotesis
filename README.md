@@ -5,7 +5,7 @@ Recurso digital para el aprendizaje del concepto de la prueba de hipótesis esta
 
 **Objetivo**
 
-Esta aplicación intenta representar gráficamente los fundamentos de la toma de decisiones basadas en las pruebas de hipótesis estadística. En particular se muestra la relación entre las distribuciones de probabilidad del _estadístico de prueba_ para la media de una población con una hipótesis alternativa de cola derecha, por ejemplo: **Ho:"mu=4"** y **H1:"mu>4"**
+Esta aplicación intenta representar gráficamente los fundamentos de la toma de decisiones basadas en las pruebas de hipótesis estadística. En particular se muestra la relación entre las distribuciones de probabilidad del _estadístico de prueba_ para la media de una población con una hipótesis alternativa de cola derecha o izquierda, por ejemplo: **Ho:"mu=4"** y **H1:"mu>4"**
 
 **Requisitos**
 
