@@ -9,7 +9,7 @@ Esta aplicación intenta representar gráficamente los fundamentos de la toma de
 
 **Requisitos**
 
-La aplicación está desarrollada en R, por lo que se requiere para su ejecución, tener instalado  ([el lenguaje R](https://cran.rstudio.com/)) y [RStudio](https://www.rstudio.com/products/RStudio/#Desktop). Adicionalmente se requiere el paquete _Shiny_ . Un ejemplo de como instalar este paquete:
+La aplicación está desarrollada en R, por lo que se requiere para su ejecución, tener instalado  ([el lenguaje R](https://cran.rstudio.com/)) y [RStudio](https://www.rstudio.com/products/RStudio/#Desktop). Adicionalmente se requiere la última versión del paquete _Shiny_ . Un ejemplo de como instalar este paquete:
 
 ```{r}
 install.packages("shiny",dependencies=TRUE)
